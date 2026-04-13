@@ -77,3 +77,70 @@ case
 end
 
 {% endmacro %}
+
+
+{#
+  is_pipeline_field_complete
+
+  Returns a boolean indicating whether a deal has all the minimum required
+  fields populated for reliable pipeline reporting and forecasting.
+
+  Situation:
+    Sales operations teams run pipeline hygiene reviews before forecast calls
+    and board meetings. Deals missing critical fields like owner, close date,
+    amount, or stage produce unreliable pipeline totals and conversion metrics.
+    This check is rebuilt from scratch in every pipeline monitoring model with
+    slightly different rules about what counts as empty or missing.
+
+  Arguments:
+    owner       -- deal owner field (string)
+    close_date  -- expected close date (date)
+    amount      -- deal value (numeric)
+    stage       -- current deal stage (string)
+
+  Returns:
+    true   -- all four fields are present and non-empty
+    false  -- any required field is null or owner is an empty string
+
+  Rules:
+    - all four inputs must be non-null to return true
+    - owner with only whitespace is treated as missing (trim check)
+    - zero is a valid amount — only null fails the check
+    - future close dates are allowed, only null fails
+    - stage null returns false regardless of other fields
+
+  Edge cases:
+    - owner = ''         -> false  (empty string treated as missing)
+    - owner = '   '      -> false  (whitespace-only treated as missing)
+    - amount = 0         -> true   (zero is a valid deal amount)
+    - close_date past    -> true   (historical dates are allowed)
+    - all null           -> false
+
+  Example usage:
+    select
+        deal_id,
+        owner,
+        close_date,
+        amount,
+        stage,
+        {{ revops_macros.is_pipeline_field_complete(
+            'owner',
+            'close_date',
+            'amount',
+            'stage'
+        ) }} as is_field_complete
+    from {{ ref('stg_hubspot_deals') }}
+#}
+
+{% macro is_pipeline_field_complete(owner, close_date, amount, stage) %}
+
+case
+    when {{ close_date }} is null                          then false
+    when {{ amount }}     is null                          then false
+    when {{ stage }}      is null                          then false
+    when {{ owner }}      is null                          then false
+    when trim(cast({{ owner }} as varchar)) = ''           then false
+    else true
+end
+
+{% endmacro %}
