@@ -1,0 +1,16 @@
+version: 2
+
+macros:
+  - name: classify_invoice_aging_bucket
+    description: "Buckets overdue invoices into standard AR aging categories (Current, 1-30, 31-60, 61-90, 90+)."
+    arguments:
+      - name: days_overdue
+        type: integer
+
+  - name: safe_discount_rate
+    description: "Calculates the discount rate safely, handling division by zero and nulls."
+    arguments:
+      - name: list_price
+        type: numeric
+      - name: actual_price
+        type: numeric

@@ -1,0 +1,10 @@
+version: 2
+
+macros:
+  - name: classify_mrr_sanity
+    description: "Detects logical inconsistencies in MRR values relative to account status (e.g., active accounts with 0 MRR)."
+    arguments:
+      - name: mrr_value
+        type: numeric
+      - name: subscription_status
+        type: string

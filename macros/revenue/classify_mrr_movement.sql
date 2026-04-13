@@ -10,7 +10,3 @@
         else 'inactive'
     end
 {% endmacro %}
-
-{% macro classify_revenue_movement(previous_mrr, current_mrr) %}
-    {{ classify_mrr_movement(previous_mrr, current_mrr) }}
-{% endmacro %}

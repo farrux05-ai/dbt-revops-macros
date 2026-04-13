@@ -1,0 +1,39 @@
+version: 2
+
+macros:
+  - name: effective_end_date
+    description: "Determines the authoritative end date for a subscription, preferring cancellation date if it exists and is earlier than the contract end date."
+    arguments:
+      - name: contract_end_date
+        type: date
+      - name: cancelled_at
+        type: date
+
+  - name: is_renewal
+    description: "Determines if a subscription is a renewal based on the gap between previous end date and current start date."
+    arguments:
+      - name: previous_end_date
+        type: date
+      - name: current_start_date
+        type: date
+      - name: tolerance_days
+        type: integer
+        description: "Defaults to 30 days."
+
+  - name: classify_renewal_proximity
+    description: "Buckets upcoming renewals into time-based priority tiers (Imminent, Upcoming, Planning, Long Horizon)."
+    arguments:
+      - name: renewal_date
+        type: date
+      - name: as_of_date
+        type: date
+
+  - name: is_active_on_date
+    description: "Boolean check to see if a subscription is active as of a specific date."
+    arguments:
+      - name: start_date
+        type: date
+      - name: end_date
+        type: date
+      - name: as_of_date
+        type: date

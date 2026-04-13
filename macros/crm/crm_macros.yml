@@ -1,0 +1,78 @@
+version: 2
+
+macros:
+  - name: map_hubspot_deal_stage_to_standard_group
+    description: "Maps raw HubSpot deal stages to standardized business groups (e.g., Prospecting, Closed Won)."
+    arguments:
+      - name: stage_column
+        type: string
+        description: "The column or expression containing the raw HubSpot deal stage."
+
+  - name: is_open_pipeline
+    description: "Returns a boolean expression indicating if a HubSpot deal is in an 'open' stage."
+    arguments:
+      - name: stage_column
+        type: string
+        description: "The column or expression containing the raw HubSpot deal stage."
+
+  - name: is_closed_won
+    description: "Returns a boolean expression indicating if a HubSpot deal is 'Closed Won'."
+    arguments:
+      - name: stage_column
+        type: string
+        description: "The column or expression containing the raw HubSpot deal stage."
+
+  - name: is_closed_lost
+    description: "Returns a boolean expression indicating if a HubSpot deal is 'Closed Lost'."
+    arguments:
+      - name: stage_column
+        type: string
+        description: "The column or expression containing the raw HubSpot deal stage."
+
+  - name: days_in_stage
+    description: "Calculates the number of calendar days a deal has spent in a given stage."
+    arguments:
+      - name: entered_at
+        type: timestamp
+        description: "Timestamp when the deal entered the stage."
+      - name: exited_at
+        type: timestamp
+        description: "Timestamp when the deal exited the stage (null if current stage)."
+      - name: as_of_date
+        type: date
+        description: "Reference evaluation date (usually current_date)."
+
+  - name: classify_deal_age_tier
+    description: "Categorizes deal age into Fresh, Aging, Stale, or Critical tiers."
+    arguments:
+      - name: days_in_stage
+        type: integer
+        description: "Number of days spent in stage."
+
+  - name: is_pipeline_field_complete
+    description: "Checks if mandatory pipeline fields (Owner, Close Date, Amount, Stage) are populated."
+    arguments:
+      - name: owner
+        type: string
+      - name: close_date
+        type: date
+      - name: amount
+        type: numeric
+      - name: stage
+        type: string
+
+  - name: classify_lead_response_time
+    description: "Buckets lead response time into SLA tiers (e.g., <5 min, 1-24h)."
+    arguments:
+      - name: lead_created_at
+        type: timestamp
+      - name: first_contact_at
+        type: timestamp
+
+  - name: classify_mql_age
+    description: "Calculates the age of an MQL from creation to current date."
+    arguments:
+      - name: mql_date
+        type: date
+      - name: as_of_date
+        type: date

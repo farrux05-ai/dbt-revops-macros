@@ -1,0 +1,46 @@
+version: 2
+
+macros:
+  - name: classify_mrr_movement
+    description: "Classifies the movement between previous and current MRR into categories: New, Expansion, Contraction, Churn, Retained."
+    arguments:
+      - name: previous_mrr
+        type: numeric
+      - name: current_mrr
+        type: numeric
+
+  - name: classify_arr_band
+    description: "Segments customers into ARR bands (e.g., SMB, Mid-Market, Enterprise) based on total ARR."
+    arguments:
+      - name: arr_value
+        type: numeric
+
+  - name: normalize_contract_to_monthly_mrr
+    description: "Normalizes a total contract value into a monthly MRR amount based on term length."
+    arguments:
+      - name: contract_value
+        type: numeric
+      - name: start_date
+        type: date
+      - name: end_date
+        type: date
+
+  - name: contract_term_months
+    description: "Calculates the total number of calendar months in a contract term."
+    arguments:
+      - name: start_date
+        type: date
+      - name: end_date
+        type: date
+
+  - name: prorate_monthly_amount
+    description: "Calculates the pro-rated amount for a partial month of service."
+    arguments:
+      - name: monthly_amount
+        type: numeric
+      - name: start_date
+        type: date
+      - name: month_start
+        type: date
+      - name: month_end
+        type: date

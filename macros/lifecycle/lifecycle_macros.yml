@@ -1,0 +1,14 @@
+version: 2
+
+macros:
+  - name: classify_health_tier
+    description: "Categorizes customer health based on a numeric score into Green, Yellow, or Red tiers."
+    arguments:
+      - name: health_score
+        type: numeric
+
+  - name: assign_customer_cohort_month
+    description: "Standardizes cohort month assignment by truncating the first active date to the first day of its month."
+    arguments:
+      - name: first_active_date
+        type: date
