@@ -1,0 +1,18 @@
+name: 'revops_macros'
+version: '1.0.0'
+config-version: 2
+
+# Path configurations
+macro-paths: ["macros"]
+
+# Profile configuration (shared with main project)
+profile: 'revops_project'
+
+# Clean targets
+clean-targets: ["target", "dbt_packages"]
+
+# Global variables for the macro library
+vars:
+  revops_macros:
+    company_name: "B2B SaaS"
+    business_logic_standard: "RevOps"

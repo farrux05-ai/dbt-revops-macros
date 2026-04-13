@@ -1,0 +1,7 @@
+target/
+dbt_packages/
+logs/
+*.db
+*.csv
+.env
+.user.yml
